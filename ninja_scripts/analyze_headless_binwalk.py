@@ -10,6 +10,7 @@ import subprocess
 import tempfile
 import os
 import csv
+import sys
 from ghidra.program.model.listing import CodeUnit
 
 def add_bookmark_comment(addr, text):

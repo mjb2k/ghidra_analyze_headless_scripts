@@ -9,6 +9,7 @@ import ghidra_ninja_helpers as gn
 import subprocess
 import tempfile
 import os
+import sys
 from ghidra.program.model.listing import CodeUnit
 
 
