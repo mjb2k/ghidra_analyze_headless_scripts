@@ -53,7 +53,7 @@ for line in output.splitlines():
                 print("Found : {} - {} - {}".format(current_rule, hex(addr_int), hex(vaddr)))
                 add_bookmark_comment(vaddr, current_rule)
                 f = open(sys.argv[1], "w")
-                f.write("Bookmark rule: " + current_rule + "\n" + "Bookmark address: " + vaddr)
+                f.write("Bookmark rule: " + current_rule + "\n" + "Bookmark address: " + vaddr + "\n")
             else:
                 print("Physical address {} cannot be converted".format(hex(addr_int)))
     else:

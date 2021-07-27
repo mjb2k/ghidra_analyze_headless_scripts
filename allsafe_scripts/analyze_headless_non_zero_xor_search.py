@@ -28,7 +28,7 @@ for r in ranges:
             if operand1 != operand2:
                 print("{} {}".format(ins.address, ins))
                 add_bookmark_comment(ins.address, str(ins))
-                f.write("bookmark text: " + str(ins) + "bookmark address: " + ins.address)
+                f.write("bookmark text: " + str(ins) + "\n" + "bookmark address: " + ins.address + "\n")
         ins =  getInstructionAfter(ins)
         while(ins==None):
             ins =  getInstructionAfter(ins)

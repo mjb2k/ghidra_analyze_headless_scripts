@@ -1,9 +1,9 @@
 # Run binwalk on the current file and create bookmarks and EOL comments for findings.
 #@author Thomas Roth code@stacksmashing.net
 #@category Ghidra Ninja
-#@keybinding 
-#@menupath 
-#@toolbar 
+#@keybinding
+#@menupath
+#@toolbar
 
 
 import subprocess
@@ -34,7 +34,7 @@ try:
 			text = row[2]
 			add_bookmark_comment(addr, text)
                         f = open(sys.argv[1], "w")
-                        f.write("Bookmark text: " + text + "\n" + "Bookmark address: " + addr)
+                        f.write("Bookmark text: " + text + "\n" + "Bookmark address: " + addr + "\n")
 except Exception as e:
 	print("Failed")
 	print(e)

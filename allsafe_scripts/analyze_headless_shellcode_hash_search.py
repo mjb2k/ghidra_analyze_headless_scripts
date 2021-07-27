@@ -44,7 +44,7 @@ for ins in instructions:
             text = "{} {} [{}]{}".format(ins.address, sc_hashes['hash_types'][str(symbol_info['hash_type'])], sc_hashes['source_libs'][str(symbol_info['lib_key'])], symbol_info['symbol_name'])
             print(text)
             add_bookmark_comment(ins.address, text)
-            f.write("bookmark text: " + text + "bookmark address: " + ins.address)
+            f.write("bookmark text: " + text + "\n" + "bookmark address: " + ins.address + "\n")
     elif mnemonic == "PUSH":
         operand1 = ins.getOpObjects(0)
         symbol_info = db_search(operand1)
@@ -52,4 +52,4 @@ for ins in instructions:
             text = "{} {} [{}]{}".format(ins.address, sc_hashes['hash_types'][str(symbol_info['hash_type'])], sc_hashes['source_libs'][str(symbol_info['lib_key'])], symbol_info['symbol_name'])
             print(text)
             add_bookmark_comment(ins.address, text)
-            f.write("bookmark text: " + text + "bookmark address: " + ins.address)
+            f.write("bookmark text: " + text + "\n" + "bookmark address: " + ins.address + "\n")
