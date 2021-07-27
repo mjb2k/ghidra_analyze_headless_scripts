@@ -2,6 +2,7 @@
 # @author: Allsafe
 # @category: tools
 import sys
+import json
 from ghidra.program.model.listing import CodeUnit
 
 def add_bookmark_comment(addr, text):
@@ -12,7 +13,8 @@ def add_bookmark_comment(addr, text):
 #get all memory ranges
 ranges = currentProgram.getMemory().getAddressRanges()
 print("--------------------------------")
-f.open(sys.argv[1], "w")
+data = {}
+data['bookmarks'] = []
 for r in ranges:
     begin = r.getMinAddress()
     length = r.getLength()
@@ -28,7 +30,10 @@ for r in ranges:
             if operand1 != operand2:
                 print("{} {}".format(ins.address, ins))
                 add_bookmark_comment(ins.address, str(ins))
-                f.write("bookmark text: " + str(ins) + "\n" + "bookmark address: " + ins.address + "\n")
+                data['bookmarks'].append({'Bookmark text': str(ins), 'Bookmark address': ins.address})
         ins =  getInstructionAfter(ins)
         while(ins==None):
             ins =  getInstructionAfter(ins)
+
+with open(sys.argv[1], 'w') as outfile:
+	json.dump(data, outfile)

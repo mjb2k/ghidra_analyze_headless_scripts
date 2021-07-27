@@ -11,6 +11,7 @@ import tempfile
 import os
 import csv
 import sys
+import json
 from ghidra.program.model.listing import CodeUnit
 
 def add_bookmark_comment(addr, text):
@@ -20,7 +21,8 @@ def add_bookmark_comment(addr, text):
 
 file_location = currentProgram.getDomainFile().getMetadata()["Executable Location"]
 _, result_file = tempfile.mkstemp()
-
+data = {}
+data['bookmarks'] = []
 try:
 	subprocess.call(["binwalk", "-c", "-f", result_file, file_location])
 	with open(result_file) as csvfile:
@@ -33,8 +35,11 @@ try:
 
 			text = row[2]
 			add_bookmark_comment(addr, text)
-                        f = open(sys.argv[1], "w")
-                        f.write("Bookmark text: " + text + "\n" + "Bookmark address: " + addr + "\n")
+            data['bookmarks'].append({'Bookmark text': text, 'Bookmark address': addr})
+
+with open(sys.argv[1], 'w') as outfile:
+	json.dump(data, outfile)
+	
 except Exception as e:
 	print("Failed")
 	print(e)

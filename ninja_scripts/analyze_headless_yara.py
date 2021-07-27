@@ -10,6 +10,7 @@ import subprocess
 import tempfile
 import os
 import sys
+import json
 from ghidra.program.model.listing import CodeUnit
 
 
@@ -32,6 +33,8 @@ def add_bookmark_comment(addr, text):
 
 
 # Start
+data = {}
+data['bookmarks'] = []
 file_location = currentProgram.getExecutablePath()
 rule_location = os.path.join(gn.PATH, "yara-crypto.yar")
 
@@ -52,10 +55,11 @@ for line in output.splitlines():
             if vaddr:
                 print("Found : {} - {} - {}".format(current_rule, hex(addr_int), hex(vaddr)))
                 add_bookmark_comment(vaddr, current_rule)
-                f = open(sys.argv[1], "w")
-                f.write("Bookmark rule: " + current_rule + "\n" + "Bookmark address: " + vaddr + "\n")
+                data['bookmarks'].append({'Bookmark text': current_rule, 'Bookmark address': vaddr})
             else:
                 print("Physical address {} cannot be converted".format(hex(addr_int)))
     else:
         current_rule = line.split(" ")[0]
-B
+
+with open(sys.argv[1], 'w') as outfile:
+	json.dump(data, outfile)
