@@ -3,7 +3,8 @@ be able to output to a file there findings to make them compatible with the anal
 
 To use the scripts simply do:
 
-$YOUR_GHIDRA_PATH/analyzeHeadless <project path> <project name> -import <executable to import> -postScript <script_name> <path to output file> -scriptPath <path to script>
+$YOUR_GHIDRA_PATH/analyzeHeadless |project path| |project name| -import |executable to import| -postScript |script_name| |path to output file| -scriptPath
+|path to script|
 
 example:
 
