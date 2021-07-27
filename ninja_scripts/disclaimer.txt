@@ -1,0 +1,1 @@
+All credit for these scripts (minus the modification to make the scripts compatable with headlessAnalysis) belongs to ghidraninja created by Thomas Roth (https://github.com/ghidraninja/ghidra_scripts.git)
