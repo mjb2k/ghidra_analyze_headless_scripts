@@ -9,9 +9,10 @@ import ghidra_ninja_helpers as gn
 import subprocess
 import tempfile
 import os
-import sys
 import json
+import __main__ as ghidra_app
 from ghidra.program.model.listing import CodeUnit
+
 
 
 def convert_phys_addr(addr):
@@ -61,5 +62,12 @@ for line in output.splitlines():
     else:
         current_rule = line.split(" ")[0]
 
-with open(sys.argv[1], 'w') as outfile:
-	json.dump(data, outfile)
+args = ghidra_app.getScriptArgs()
+if len(args) > 1:
+    print("please provide the path of the output file as the ONLY argument.")
+if len(args) == 0:
+    print("you must provide a path for the output file.");
+
+print("[*] saving to: " + args[0])
+outfile = open(args[0], "w")
+json.dump(data, outfile)

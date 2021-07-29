@@ -10,8 +10,8 @@ import subprocess
 import tempfile
 import os
 import csv
-import sys
 import json
+import __main__ as ghidra_app
 from ghidra.program.model.listing import CodeUnit
 
 def add_bookmark_comment(addr, text):
@@ -34,14 +34,20 @@ try:
 				continue
 
 			text = row[2]
+			data['bookmarks'].append({'Bookmark text': text, 'Bookmark address': addr})
 			add_bookmark_comment(addr, text)
-            data['bookmarks'].append({'Bookmark text': text, 'Bookmark address': addr})
-
-with open(sys.argv[1], 'w') as outfile:
-	json.dump(data, outfile)
-	
 except Exception as e:
 	print("Failed")
 	print(e)
+
+args = ghidra_app.getScriptArgs()
+if len(args) > 1:
+    print("please provide the path of the output file as the ONLY argument.")
+if len(args) == 0:
+    print("you must provide a path for the output file.");
+
+print("[*] saving to: " + args[0])
+outfile = open(args[0], "w")
+json.dump(data, outfile)
 
 os.unlink(result_file)

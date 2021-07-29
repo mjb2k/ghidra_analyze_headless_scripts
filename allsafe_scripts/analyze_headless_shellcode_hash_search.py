@@ -4,6 +4,7 @@
 
 import json
 import sys
+import __main__ as ghidra_app
 from ghidra.program.model.listing import CodeUnit
 from ghidra.util.exception import CancelledException
 from ghidra.program.model.scalar import Scalar
@@ -13,15 +14,6 @@ def add_bookmark_comment(addr, text):
 	createBookmark(addr, "shellcode_hash", text)
 	cu.setComment(CodeUnit.EOL_COMMENT, text)
 
-try:
-    sc_hashes_file = askFile("sc_hashes.json", "sc_hashes.json").getPath()
-except CancelledException as e:
-    print str(e)
-    exit()
-
-with open(sc_hashes_file, 'r') as f:
-     sc_hashes = json.load(f)
-
 def  db_search(data):
     if isinstance(data[0], Scalar):
         decimal_data= int(str(data[0]), 16)
@@ -30,6 +22,11 @@ def  db_search(data):
     	except:
             return -1
 
+#Start
+args = ghidra_app.getScriptArgs()
+f = open(args[0], "r")
+sc_hashes = json.load(f)
+	
 #get all instructions
 instructions = currentProgram.getListing().getInstructions(True)
 
@@ -55,5 +52,11 @@ for ins in instructions:
             add_bookmark_comment(ins.address, text)
             data['bookmarks'].append({'Bookmark text': text, 'Bookmark address': ins.address})
 
-with open(sys.argv[1], 'w') as outfile:
-	json.dump(data, outfile)
+if len(args) > 2:
+    print("Only provide path to sc_hashes.json & output file")
+if len(args) == 0:
+    print("you must provide a path for the output file & sc_hashes.json");
+
+print("[*] saving to: " + args[1])
+outfile = open(args[1], "w")
+json.dump(data, outfile)
